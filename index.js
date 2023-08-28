@@ -6,7 +6,7 @@ const express = require("express");
 const api = require("./api");
 const logger = require("./logger");
 const config = require("./config");
-const { default: axios } = require("axios");
+const utils = require("./utils.js");
 
 const app = express();
 
@@ -24,16 +24,12 @@ api.getAccessToken().then(() => {
 	app.listen(config.PORT, () => logger.debug("Server started on ", config.PORT));
 });
 
-
 const contactAgeFieldId = 1163127;
-const contactBirthDateFieldId = 1160897;
-const utils = require('./utils.js')
 
-app.post('/', async (req, res) => {
+app.post("/", async (req, res) => {
 	const contactId = req.body.contacts.add[0].id;	
 	const contact = await api.getContact(contactId);	
-	const birthDate = 1000 * utils.getFieldValue(contact.custom_fields_values, contactBirthDateFieldId);
-	const age = Math.trunc((Date.now() - birthDate)/1000/60/60/24/365.25);
+	const age = utils.getAge(contact);
 	const updatedContact = {
 		id: contact.id,
 		custom_fields_values: [
@@ -46,6 +42,6 @@ app.post('/', async (req, res) => {
 				]
 			}
 		]
-	} 
+	};
 	await api.updateContacts([updatedContact]);
 });

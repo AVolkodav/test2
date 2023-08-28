@@ -131,11 +131,26 @@ const getClearPhoneNumber = (tel) => {
 	return tel ? tel.split("").filter(item => new RegExp(/\d/).test(item)).join("") : undefined;
 }; 
 
+
+/**
+ * Функция принимает контакт и id поля с датой рождения и возвращает возраст данного контакта
+ * применялась для заполнения поля "возраст"
+ * @param {*} contact - контакт amoCRM
+ * @param {*} birthDateFieldId - id поля с датой рождения
+ * @returns number
+ */
+const getAge = (contact, birthDateFieldId = 1160897) => {
+	const birthDate = 1000 * getFieldValue(contact.custom_fields_values, birthDateFieldId);
+	const age = Math.trunc((Date.now() - birthDate)/1000/60/60/24/365.25);
+	return age;
+};
+
 module.exports = {
 	getFieldValue,
 	getFieldValues,
 	makeField,
 	bulkOperation,
 	getAllPages,
-	getClearPhoneNumber
+	getClearPhoneNumber,
+	getAge,
 };
