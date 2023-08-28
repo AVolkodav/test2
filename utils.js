@@ -46,7 +46,7 @@ const getFieldValues = (customFields, fieldId) => {
  * @returns типовой объект с данными о поле, который необходимо передать в amoCRM.  
  */
 const makeField = (field_id, value, enum_id) => {
-	if (!value) {
+	if (value === null || value == undefined) {
 		return undefined;
 	}
 	return {
@@ -135,12 +135,10 @@ const getClearPhoneNumber = (tel) => {
 /**
  * Функция принимает контакт и id поля с датой рождения и возвращает возраст данного контакта
  * применялась для заполнения поля "возраст"
- * @param {*} contact - контакт amoCRM
- * @param {*} birthDateFieldId - id поля с датой рождения
+ * @param {*} birthDate - дата рождения
  * @returns number
  */
-const getAge = (contact, birthDateFieldId = 1160897) => {
-	const birthDate = 1000 * getFieldValue(contact.custom_fields_values, birthDateFieldId);
+const getAge = (birthDate) => {
 	const age = Math.trunc((Date.now() - birthDate)/1000/60/60/24/365.25);
 	return age;
 };
