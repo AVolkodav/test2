@@ -143,11 +143,11 @@ const getAge = (birthDate) => {
 	const date = new Date(birthDate);
 
 	let additionalYear = 0;
-	if (today.getMonth() > date.getMonth()) {
+	if (today.getMonth() < date.getMonth()) {
 		additionalYear = -1;
 	}
 	
-	if (today.getMonth() === date.getMonth() && today.getDate() > date.getDate()) {
+	if (today.getMonth() === date.getMonth() && today.getDate() < date.getDate()) {
 		additionalYear = -1;
 	}
 	
