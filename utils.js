@@ -139,9 +139,19 @@ const getClearPhoneNumber = (tel) => {
  * @returns number
  */
 const getAge = (birthDate) => {
-	const msDiff = Date.now() - birthDate;
-	const ageDate = new Date(msDiff);
-	return ageDate.getFullYear() - new Date(0).getFullYear();
+	const today = new Date();
+	const date = new Date(birthDate);
+
+	let additionalYear = 0;
+	if (today.getMonth() > date.getMonth()) {
+		additionalYear = -1;
+	}
+	
+	if (today.getMonth() === date.getMonth() && today.getDate() > date.getDate()) {
+		additionalYear = -1;
+	}
+	
+	return today.getFullYear() - date.getFullYear() + additionalYear;
 };
 
 module.exports = {
